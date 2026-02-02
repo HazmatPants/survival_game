@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://to8pv50uhndo"]
+
+[ext_resource type="Script" uid="uid://dxlmmgpmtm65f" path="res://scripts/landmine.gd" id="1_vw0b7"]
+[ext_resource type="PackedScene" uid="uid://bceja18k8jmem" path="res://assets/models/landmine.glb" id="2_1irre"]
+[ext_resource type="Texture2D" uid="uid://brej6ula0l0oq" path="res://assets/textures/particles/smoke.png" id="3_1irre"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_i1xba"]
+radius = 4.0781856
+
+[sub_resource type="Curve" id="Curve_1irre"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_i1xba"]
+curve = SubResource("Curve_1irre")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1irre"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_max = 1.0
+radial_velocity_min = -0.50002235
+radial_velocity_max = 0.49997765
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+alpha_curve = SubResource("CurveTexture_i1xba")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i1xba"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.34158427, 0.34158427, 0.3415842, 1)
+albedo_texture = ExtResource("3_1irre")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_i4jql"]
+material = SubResource("StandardMaterial3D_i1xba")
+size = Vector2(10, 10)
+
+[node name="Landmine" type="Node3D"]
+script = ExtResource("1_vw0b7")
+
+[node name="landmine" parent="." instance=ExtResource("2_1irre")]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_i1xba")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 32
+lifetime = 8.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_1irre")
+draw_pass_1 = SubResource("QuadMesh_i4jql")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

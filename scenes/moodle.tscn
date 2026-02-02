@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://cf1gaqo1st52c"]
+
+[ext_resource type="Texture2D" uid="uid://nx2vybsmx5ee" path="res://assets/textures/ui/icons/moodle_background.svg" id="1_sli5m"]
+[ext_resource type="Script" uid="uid://b0mnnrfv808wm" path="res://scripts/moodle.gd" id="1_vo07i"]
+[ext_resource type="Texture2D" uid="uid://c0cgalny4wnbr" path="res://assets/textures/ui/icons/utensils.svg" id="2_vo07i"]
+
+[node name="Moodle" type="Control"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_vo07i")
+
+[node name="BG" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.5
+offset_top = -22.5
+offset_right = 22.5
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_sli5m")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_vo07i")
+expand_mode = 1

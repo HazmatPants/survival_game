@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cf6abfhplgjm1"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f0evv"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, -1, 0)
+spread = 15.0
+initial_velocity_max = 1.0
+scale_min = 0.19999999
+scale_max = 0.39999998
+collision_mode = 1
+collision_friction = 0.79
+collision_bounce = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_quu6n"]
+albedo_color = Color(1, 0, 0.0333333, 1)
+roughness = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_xaq7g"]
+material = SubResource("StandardMaterial3D_quu6n")
+radius = 0.075
+height = 0.15
+
+[node name="GPUParticles3D" type="GPUParticles3D"]
+amount = 64
+lifetime = 5.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_f0evv")
+draw_pass_1 = SubResource("SphereMesh_xaq7g")

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://702yknt4nr2e"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f0evv"]
+direction = Vector3(0, 0, -1)
+spread = 15.0
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+scale_min = 0.39999998
+collision_mode = 1
+collision_friction = 0.79
+collision_bounce = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_quu6n"]
+albedo_color = Color(0.52273995, 0.59, 0.2537, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_xaq7g"]
+material = SubResource("StandardMaterial3D_quu6n")
+radius = 0.075
+height = 0.15
+
+[node name="GPUParticles3D" type="GPUParticles3D"]
+emitting = false
+amount = 128
+lifetime = 30.0
+one_shot = true
+explosiveness = 0.98
+process_material = SubResource("ParticleProcessMaterial_f0evv")
+draw_pass_1 = SubResource("SphereMesh_xaq7g")

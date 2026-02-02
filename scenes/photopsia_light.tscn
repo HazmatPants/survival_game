@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dglcqx7ir8r8n"]
+
+[ext_resource type="Script" uid="uid://c73o0786he55p" path="res://scripts/photopsia.gd" id="1_bqj1i"]
+
+[node name="PhotopsiaLight" type="OmniLight3D"]
+script = ExtResource("1_bqj1i")

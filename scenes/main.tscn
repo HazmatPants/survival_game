@@ -1,0 +1,161 @@
+[gd_scene format=3 uid="uid://c0gf6j70lrgac"]
+
+[ext_resource type="Script" uid="uid://cg4hag20uk4re" path="res://scripts/sun.gd" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://cm46spx5mbqp4" path="res://scripts/main.gd" id="1_a8y0u"]
+[ext_resource type="PackedScene" uid="uid://dknh5xtvc6o5r" path="res://scenes/player.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://58w0v4dejsi1" path="res://scenes/items/survival_manual.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://dpgphplye67np" path="res://scenes/items/nutrient_block.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://bj0xvww7mhdsv" path="res://scenes/items/berries.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://q7j7r5c37u7i" path="res://scenes/items/evil_berries.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://fscg3cvw0wkx" path="res://scenes/items/adrenaberries.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://dua4hyhq0ylky" path="res://scenes/berry_bush.tscn" id="8_tipki"]
+[ext_resource type="PackedScene" uid="uid://cdm3l3ulw4grk" path="res://scenes/bear_trap.tscn" id="9_85g3d"]
+[ext_resource type="PackedScene" uid="uid://to8pv50uhndo" path="res://scenes/landmine.tscn" id="15_jkv2x"]
+
+[sub_resource type="Environment" id="Environment_o5qli"]
+background_mode = 1
+background_color = Color(0, 0.59607846, 1, 1)
+ssao_enabled = true
+ssil_enabled = true
+glow_enabled = true
+volumetric_fog_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0wfyh"]
+albedo_color = Color(1, 1, 0.5529412, 1)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_sugp2"]
+material = SubResource("StandardMaterial3D_0wfyh")
+radius = 100.0
+height = 200.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sugp2"]
+emission_enabled = true
+emission = Color(0.33333334, 0.33333334, 0.63529414, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jyhfs"]
+material = SubResource("StandardMaterial3D_sugp2")
+radius = 100.0
+height = 200.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0wfyh"]
+noise_type = 3
+frequency = 0.1
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_frequency = 0.005
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sugp2"]
+noise = SubResource("FastNoiseLite_0wfyh")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jyhfs"]
+albedo_color = Color(0, 0.57254905, 0, 1)
+albedo_texture = SubResource("NoiseTexture2D_sugp2")
+uv1_scale = Vector3(0.9, 0.9, 0.9)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_tbgi4"]
+material = SubResource("StandardMaterial3D_jyhfs")
+size = Vector3(1000, 100, 1000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tefeu"]
+size = Vector3(1000, 100, 1000)
+
+[node name="Main" type="Node3D" unique_id=1730285456]
+script = ExtResource("1_a8y0u")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=124454503]
+environment = SubResource("Environment_o5qli")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1743709073]
+transform = Transform3D(1, 0, 0, 0, 0.19044921, 0.981697, 0, -0.981697, 0.19044921, 0, 4.5824475, 0)
+shadow_enabled = true
+shadow_caster_mask = 4294966783
+script = ExtResource("1_0wfyh")
+
+[node name="Sun" type="MeshInstance3D" parent="DirectionalLight3D" unique_id=580678966]
+transform = Transform3D(1, 0, 0, 0, -4.4703484e-08, 1, 0, -1, -4.4703484e-08, -0.027076721, 0.014346123, 1000.0162)
+layers = 512
+mesh = SubResource("SphereMesh_sugp2")
+skeleton = NodePath("../..")
+
+[node name="Moon" type="MeshInstance3D" parent="DirectionalLight3D" unique_id=2058384331]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1000)
+layers = 512
+mesh = SubResource("SphereMesh_jyhfs")
+skeleton = NodePath("../..")
+
+[node name="Player" parent="." unique_id=273476053 instance=ExtResource("1_o5qli")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8540807, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=629104956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -49.485, 0)
+metadata/material = "grass"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1604765781]
+mesh = SubResource("BoxMesh_tbgi4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1265306919]
+shape = SubResource("BoxShape3D_tefeu")
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="StaticBody3D" unique_id=2037508508]
+size = Vector3(1000, 100, 1000)
+
+[node name="SurvivalManual" parent="." unique_id=2096287024 instance=ExtResource("3_sugp2")]
+transform = Transform3D(1, 2.6054018e-15, 0, 0, -2.9802322e-08, 1, 1.7763568e-15, -1, -2.9802322e-08, 0, 0.913, -3.045)
+
+[node name="NutrientBlock" parent="." unique_id=1885103177 instance=ExtResource("4_jyhfs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.669039, 0.52499986, -3.1502037)
+
+[node name="Berries" parent="." unique_id=2062791748 instance=ExtResource("5_tbgi4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2716676, 0.62377787, -2.9643214)
+
+[node name="Berries2" parent="." unique_id=2077839967 instance=ExtResource("5_tbgi4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0632825, 0.62377787, -3.0272317)
+
+[node name="Berries3" parent="." unique_id=1984273098 instance=ExtResource("5_tbgi4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2327946, 0.62377787, -3.138491)
+
+[node name="EvilBerries" parent="." unique_id=1161985605 instance=ExtResource("6_tefeu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7536057, 0.62377787, -2.6489193)
+
+[node name="EvilBerries2" parent="." unique_id=1515683042 instance=ExtResource("6_tefeu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54288095, 0.62377787, -2.5739253)
+
+[node name="EvilBerries3" parent="." unique_id=868795303 instance=ExtResource("6_tefeu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.71765375, 0.62377787, -2.4180267)
+
+[node name="EvilBerries4" parent="." unique_id=102201632 instance=ExtResource("6_tefeu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9279161, 0.62377787, -2.4451141)
+
+[node name="Adrenaberries" parent="." unique_id=1189057817 instance=ExtResource("7_o6xl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7609522, 0.62377787, -3.020196)
+
+[node name="Adrenaberries2" parent="." unique_id=1212647965 instance=ExtResource("7_o6xl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8027512, 0.62377787, -2.7177472)
+
+[node name="Adrenaberries3" parent="." unique_id=551156969 instance=ExtResource("7_o6xl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1066275, 0.62377787, -2.8703265)
+
+[node name="BerryBush" parent="." unique_id=347931764 instance=ExtResource("8_tipki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9627132, 0.75216633, -3.3593435)
+berry_type = 1
+
+[node name="BerryBush2" parent="." unique_id=736277737 instance=ExtResource("8_tipki")]
+transform = Transform3D(0.4127706, 0, -0.910835, 0, 1, 0, 0.910835, 0, 0.4127706, 5.9838386, 0.75216633, -3.9966617)
+berry_type = 3
+
+[node name="bear_trap" parent="." unique_id=1713713507 instance=ExtResource("9_85g3d")]
+transform = Transform3D(0.275, 0, 0, 0, 0.275, 0, 0, 0, 0.275, 5.730351, 0.5116173, -1.7758462)
+
+[node name="bear_trap2" parent="." unique_id=243147438 instance=ExtResource("9_85g3d")]
+transform = Transform3D(0.275, 0, 0, 0, 0.275, 0, 0, 0, 0.275, 10.788632, 0.5116178, 1.0027273)
+collision_layer = 4
+
+[node name="bear_trap3" parent="." unique_id=1101501360 instance=ExtResource("9_85g3d")]
+transform = Transform3D(0.275, 0, 0, 0, 0.275, 0, 0, 0, 0.275, 5.2487373, 0.5116178, 7.287328)
+
+[node name="Landmine" parent="." unique_id=1787106037 instance=ExtResource("15_jkv2x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.953603, 0.5371622, 1.0039296)

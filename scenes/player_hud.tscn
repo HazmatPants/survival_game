@@ -1,0 +1,1218 @@
+[gd_scene format=3 uid="uid://cd8c3mjn84gs1"]
+
+[ext_resource type="Script" uid="uid://be8vru1lk3pnc" path="res://scripts/player_hud.gd" id="1_mlvnn"]
+[ext_resource type="Script" uid="uid://dv7l56yubwqdk" path="res://scripts/player_health_gui.gd" id="2_er5qu"]
+[ext_resource type="Theme" uid="uid://b86kw1uh4ns8s" path="res://assets/res/theme.tres" id="2_ujnyd"]
+[ext_resource type="Shader" uid="uid://c830pars22brw" path="res://assets/shaders/blur.gdshader" id="3_er5qu"]
+[ext_resource type="Script" uid="uid://cjms6ifrnmp7c" path="res://scripts/player_inventory_gui.gd" id="3_s25gh"]
+[ext_resource type="Script" uid="uid://cankx17o6tuy" path="res://scripts/player_os_gui.gd" id="4_qcjqi"]
+[ext_resource type="Script" uid="uid://b1c6j88guckrw" path="res://scripts/player_gui_limb.gd" id="5_lqhkl"]
+[ext_resource type="Texture2D" uid="uid://d4c2qrevodqxs" path="res://assets/textures/ui/icons/brain.svg" id="5_mta0a"]
+[ext_resource type="Texture2D" uid="uid://cv6f3n7uxbgng" path="res://assets/textures/ui/icons/oxygen.svg" id="6_3pvjt"]
+[ext_resource type="Texture2D" uid="uid://42m52ctx1nny" path="res://assets/textures/ui/icons/dotted_line3.png" id="6_7yc75"]
+[ext_resource type="Script" uid="uid://bxr5bkt84pwo" path="res://scripts/tooltip.gd" id="6_ujnyd"]
+[ext_resource type="Texture2D" uid="uid://hju161e0gne7" path="res://assets/textures/ui/icons/eye.svg" id="7_aiaqn"]
+[ext_resource type="Texture2D" uid="uid://cgqys7h5bffbd" path="res://assets/textures/ui/icons/pain.png" id="9_ke71k"]
+[ext_resource type="Script" uid="uid://c5onbdhaxt3u1" path="res://scripts/moodle_container.gd" id="9_mta0a"]
+[ext_resource type="Script" uid="uid://o0xifkactte4" path="res://scripts/dev_console.gd" id="10_50hf8"]
+[ext_resource type="Texture2D" uid="uid://d0fobisfwpid8" path="res://assets/textures/ui/icons/droplet.svg" id="10_ke71k"]
+[ext_resource type="Texture2D" uid="uid://c0cgalny4wnbr" path="res://assets/textures/ui/icons/utensils.svg" id="11_iakl3"]
+[ext_resource type="Texture2D" uid="uid://bi8xr6fdtsxuj" path="res://assets/textures/ui/icons/arrow.svg" id="11_rhti3"]
+[ext_resource type="Texture2D" uid="uid://dmpvnk11stpwc" path="res://assets/textures/ui/icons/glass.svg" id="12_0gtav"]
+[ext_resource type="Shader" uid="uid://ba87u1058b4ea" path="res://assets/shaders/sharp.gdshader" id="12_aiaqn"]
+[ext_resource type="Texture2D" uid="uid://guvumqlrugvg" path="res://assets/textures/ui/icons/lungs.svg" id="13_e3h3h"]
+[ext_resource type="Texture2D" uid="uid://cydbj3pw087m7" path="res://assets/textures/ui/icons/bolt.svg" id="14_a4ece"]
+[ext_resource type="Texture2D" uid="uid://c8j1qk2gxhe0b" path="res://assets/textures/ui/icons/temperature.svg" id="15_a4ece"]
+[ext_resource type="Texture2D" uid="uid://dx1318eulr6mo" path="res://assets/textures/ui/painimage.png" id="17_0gtav"]
+[ext_resource type="PackedScene" uid="uid://bbcgmotnk1fbs" path="res://scenes/menu.tscn" id="18_ej7kq"]
+[ext_resource type="Texture2D" uid="uid://vdij8rk4xl4v" path="res://assets/textures/ui/painGradient.png" id="20_g1k2i"]
+
+[sub_resource type="Shader" id="Shader_3pvjt"]
+code = "shader_type canvas_item;
+
+uniform float blur_amount : hint_range(-2.0, 10.0);
+uniform float mix_amount : hint_range(0.0, 1.0);
+uniform vec4 color_over : source_color;
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+
+void fragment() {
+   vec4 blurred = textureLod(SCREEN_TEXTURE, SCREEN_UV, blur_amount);
+   blurred.a = 255.0;
+   vec4 fin = mix(blurred, color_over, mix_amount);
+   COLOR = fin;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a4ece"]
+shader = SubResource("Shader_3pvjt")
+shader_parameter/blur_amount = 9.49999998667295e-08
+shader_parameter/mix_amount = 0.0
+shader_parameter/color_over = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_er5qu"]
+default_font_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_otbg0"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+shadow_size = 2
+shadow_offset = Vector2(2, 2)
+anti_aliasing = false
+
+[sub_resource type="Gradient" id="Gradient_ke71k"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.15727392, 0.15727395, 0.15727395, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_43ll4"]
+gradient = SubResource("Gradient_ke71k")
+width = 150
+height = 6
+
+[sub_resource type="Gradient" id="Gradient_iakl3"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hpbnu"]
+gradient = SubResource("Gradient_iakl3")
+width = 150
+height = 6
+
+[sub_resource type="Gradient" id="Gradient_0gtav"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2c2e2"]
+gradient = SubResource("Gradient_0gtav")
+width = 150
+height = 6
+
+[sub_resource type="Gradient" id="Gradient_e3h3h"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 0.38431373, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a4ece"]
+gradient = SubResource("Gradient_e3h3h")
+width = 150
+height = 6
+
+[sub_resource type="Gradient" id="Gradient_g1k2i"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0, 0.5176471, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ej7kq"]
+gradient = SubResource("Gradient_g1k2i")
+width = 150
+height = 6
+
+[sub_resource type="Gradient" id="Gradient_ej7kq"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.15727392, 0.15727395, 0.15727395, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rhti3"]
+gradient = SubResource("Gradient_ej7kq")
+width = 150
+height = 6
+
+[sub_resource type="Gradient" id="Gradient_a4ece"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g1k2i"]
+gradient = SubResource("Gradient_a4ece")
+width = 150
+height = 6
+
+[sub_resource type="Gradient" id="Gradient_ayrit"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.15727392, 0.15727395, 0.15727395, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rlnkx"]
+gradient = SubResource("Gradient_ayrit")
+width = 150
+height = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iraov"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_er5qu"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4ece"]
+bg_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_or0tx"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lqhkl"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_right = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8y7rk"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qcjqi"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s25gh"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ujnyd"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50hf8"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2c2e2"]
+noise_type = 5
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e3h3h"]
+width = 1024
+height = 1024
+noise = SubResource("FastNoiseLite_2c2e2")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_s25gh"]
+noise_type = 3
+frequency = 0.02
+fractal_type = 3
+domain_warp_enabled = true
+domain_warp_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ujnyd"]
+noise = SubResource("FastNoiseLite_s25gh")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hpbnu"]
+shader = ExtResource("3_er5qu")
+shader_parameter/blur_amount = 9.49999998667295e-08
+shader_parameter/mix_amount = 0.0
+shader_parameter/color_over = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_or0tx"]
+shader = ExtResource("12_aiaqn")
+shader_parameter/strength = 0.5
+shader_parameter/radius = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iakl3"]
+bg_color = Color(0, 0, 0, 0.3882353)
+
+[node name="HUD" type="CanvasLayer" unique_id=212774364]
+process_mode = 3
+script = ExtResource("1_mlvnn")
+
+[node name="UIBlur" type="CanvasLayer" parent="." unique_id=2061937546]
+visible = false
+
+[node name="Blur" type="ColorRect" parent="UIBlur" unique_id=579907081]
+material = SubResource("ShaderMaterial_a4ece")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Inventory" type="Control" parent="." unique_id=1150816790]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_ujnyd")
+
+[node name="BG" type="ColorRect" parent="Inventory" unique_id=1701618893]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.74509805)
+
+[node name="TimeLabel" type="Label" parent="Inventory" unique_id=534132468]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.85200006
+anchor_top = 0.008
+anchor_right = 0.99500006
+anchor_bottom = 0.046000004
+offset_left = 0.49591064
+offset_top = -0.18400002
+offset_right = -0.2401123
+offset_bottom = 0.19199753
+grow_horizontal = 0
+text = "Time: 00:00:00 AM"
+horizontal_alignment = 2
+
+[node name="TabContainer" type="TabContainer" parent="Inventory" unique_id=13716585]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+current_tab = 1
+all_tabs_in_front = true
+
+[node name="Inventory" type="Control" parent="Inventory/TabContainer" unique_id=598668197]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_er5qu")
+script = ExtResource("3_s25gh")
+metadata/_tab_index = 0
+
+[node name="Health" type="Control" parent="Inventory/TabContainer" unique_id=292131393]
+texture_filter = 1
+layout_mode = 2
+script = ExtResource("2_er5qu")
+metadata/_tab_index = 1
+
+[node name="HealthStatus" type="Panel" parent="Inventory/TabContainer/Health" unique_id=1983828940]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.028
+anchor_top = 0.142
+anchor_right = 0.21400002
+anchor_bottom = 0.80100006
+offset_left = -0.11999893
+offset_top = 0.25499725
+offset_right = -0.52801514
+offset_bottom = 0.27474976
+theme_override_styles/panel = SubResource("StyleBoxFlat_otbg0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus" unique_id=1789621711]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -0.30499268
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Brain" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=2062165135]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain" unique_id=1387422907]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_mta0a")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain" unique_id=924897910]
+layout_mode = 2
+theme_override_constants/separation = -2
+alignment = 1
+
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer" unique_id=998492788]
+layout_mode = 2
+max_value = 1.0
+step = 0.0
+value = 1.0
+texture_under = SubResource("GradientTexture2D_43ll4")
+texture_progress = SubResource("GradientTexture2D_hpbnu")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer" unique_id=2114221609]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer/HBoxContainer" unique_id=1247104348]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "100%"
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer/HBoxContainer" unique_id=407981193]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("6_3pvjt")
+expand_mode = 1
+
+[node name="O2Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer/HBoxContainer" unique_id=1265454824]
+layout_mode = 2
+text = "100%"
+
+[node name="Separator" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1788212670]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+texture = ExtResource("6_7yc75")
+expand_mode = 3
+stretch_mode = 1
+
+[node name="Consciousness" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=425117583]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Consciousness" unique_id=800623781]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("7_aiaqn")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Consciousness" unique_id=1444320507]
+layout_mode = 2
+theme_override_constants/separation = -2
+alignment = 1
+
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Consciousness/VBoxContainer" unique_id=1952095163]
+layout_mode = 2
+max_value = 1.0
+step = 0.0
+value = 1.0
+texture_under = SubResource("GradientTexture2D_43ll4")
+texture_progress = SubResource("GradientTexture2D_hpbnu")
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Consciousness/VBoxContainer" unique_id=1750535609]
+layout_mode = 2
+text = "100%"
+
+[node name="Pain" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1776334441]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Pain" unique_id=1457343289]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("9_ke71k")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Pain" unique_id=588369683]
+layout_mode = 2
+text = "100%"
+
+[node name="Separator2" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=550437346]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+texture = ExtResource("6_7yc75")
+expand_mode = 3
+stretch_mode = 1
+
+[node name="Blood" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1464085591]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood" unique_id=896378884]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("10_ke71k")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood" unique_id=943547030]
+layout_mode = 2
+theme_override_constants/separation = -2
+alignment = 1
+
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer" unique_id=502040138]
+layout_mode = 2
+max_value = 1.0
+step = 0.0
+value = 1.0
+texture_under = SubResource("GradientTexture2D_43ll4")
+texture_progress = SubResource("GradientTexture2D_2c2e2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer" unique_id=942111751]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer/HBoxContainer" unique_id=722828385]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "100%"
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer/HBoxContainer" unique_id=210605680]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("6_3pvjt")
+expand_mode = 1
+
+[node name="O2Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer/HBoxContainer" unique_id=1505231686]
+layout_mode = 2
+text = "100%"
+
+[node name="BloodArroControl" type="Control" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood" unique_id=1712017160]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BloodArrow" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/BloodArroControl" unique_id=689001331]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+pivot_offset_ratio = Vector2(0.5, 0.5)
+size_flags_horizontal = 6
+size_flags_vertical = 4
+texture = ExtResource("11_rhti3")
+expand_mode = 1
+flip_v = true
+
+[node name="Separator3" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=726200174]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+texture = ExtResource("6_7yc75")
+expand_mode = 3
+stretch_mode = 1
+
+[node name="Sustenance" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1448103987]
+layout_mode = 2
+theme_override_constants/separation = -2
+alignment = 1
+
+[node name="Calories" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance" unique_id=948880355]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Calories" unique_id=2041196775]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("11_iakl3")
+expand_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Calories" unique_id=2140302594]
+layout_mode = 2
+
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Calories/CenterContainer" unique_id=197071394]
+layout_mode = 2
+max_value = 2.0
+step = 0.0
+value = 1.0
+texture_under = SubResource("GradientTexture2D_43ll4")
+texture_progress = SubResource("GradientTexture2D_a4ece")
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Calories" unique_id=219217634]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "100%"
+
+[node name="Hydration" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance" unique_id=2082121978]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Hydration" unique_id=1329202780]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("12_0gtav")
+expand_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Hydration" unique_id=1319934815]
+layout_mode = 2
+
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Hydration/CenterContainer" unique_id=216350415]
+layout_mode = 2
+max_value = 2.0
+step = 0.0
+value = 1.0
+texture_under = SubResource("GradientTexture2D_43ll4")
+texture_progress = SubResource("GradientTexture2D_ej7kq")
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Hydration" unique_id=1626823592]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "100%"
+
+[node name="Separator4" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=973295650]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+texture = ExtResource("6_7yc75")
+expand_mode = 3
+stretch_mode = 1
+
+[node name="Work" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=377278176]
+layout_mode = 2
+theme_override_constants/separation = -2
+alignment = 1
+
+[node name="Stamina" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work" unique_id=1978193456]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Stamina" unique_id=515643304]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("13_e3h3h")
+expand_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Stamina" unique_id=2070004678]
+layout_mode = 2
+
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Stamina/CenterContainer" unique_id=1632245991]
+layout_mode = 2
+max_value = 1.0
+step = 0.0
+value = 1.0
+texture_under = SubResource("GradientTexture2D_rhti3")
+texture_progress = SubResource("GradientTexture2D_g1k2i")
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Stamina" unique_id=769500537]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "100%"
+
+[node name="Work" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work" unique_id=1378038094]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Work" unique_id=1837954618]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("14_a4ece")
+expand_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Work" unique_id=2121799261]
+layout_mode = 2
+
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Work/CenterContainer" unique_id=162615130]
+layout_mode = 2
+max_value = 1.0
+step = 0.0
+value = 1.0
+texture_under = SubResource("GradientTexture2D_rlnkx")
+texture_progress = SubResource("GradientTexture2D_hpbnu")
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Work" unique_id=208261227]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "100%"
+
+[node name="Separator5" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1835356814]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+texture = ExtResource("6_7yc75")
+expand_mode = 3
+stretch_mode = 1
+
+[node name="Temperature" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1583895462]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Temperature" unique_id=435046318]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("15_a4ece")
+expand_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Temperature/TextureRect" unique_id=2125691754]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.37100002
+anchor_top = 0.2
+anchor_right = 0.62100005
+anchor_bottom = 0.794
+offset_left = -0.008002281
+offset_top = 0.01500845
+offset_right = -0.008003235
+offset_bottom = 0.007007599
+pivot_offset = Vector2(4, 19)
+color = Color(0.6996537, 0.6996534, 0.69965345, 1)
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Temperature" unique_id=2146571233]
+layout_mode = 2
+text = "27°C"
+
+[node name="Body" type="Control" parent="Inventory/TabContainer/Health" unique_id=1831302375]
+layout_mode = 1
+anchor_left = 0.528
+anchor_top = 0.47800002
+anchor_right = 0.56200004
+anchor_bottom = 0.54300004
+offset_left = -0.25598145
+offset_top = 0.05899048
+offset_right = 0.57592773
+offset_bottom = -0.046051025
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Head" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1168992842]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.5
+anchor_top = -4.7320004
+anchor_right = 1.5000001
+anchor_bottom = -2.732
+offset_top = -0.015167236
+offset_bottom = -0.015159607
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iraov")
+script = ExtResource("5_lqhkl")
+
+[node name="Neck" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=907916735]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.22500001
+anchor_top = -2.746
+anchor_right = 1.225
+anchor_bottom = -2.5
+offset_top = 0.009010315
+offset_bottom = 2.7350006
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iraov")
+script = ExtResource("5_lqhkl")
+
+[node name="Thorax" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1118314839]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.5
+anchor_top = -2.4
+anchor_right = 1.5000001
+anchor_bottom = -0.98700005
+offset_bottom = -0.019996643
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_er5qu")
+script = ExtResource("5_lqhkl")
+
+[node name="Heart" type="Panel" parent="Inventory/TabContainer/Health/Body/Thorax" unique_id=1928758270]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 16)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.317
+anchor_right = 0.5
+anchor_bottom = 0.317
+offset_left = -6.0
+offset_top = -4.6941166
+offset_right = 9.73
+offset_bottom = 16.920883
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(6, 4.7)
+theme_override_styles/panel = SubResource("StyleBoxFlat_a4ece")
+
+[node name="Abdomen" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1469748840]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.5
+anchor_top = -0.95000005
+anchor_right = 1.5000001
+anchor_bottom = 0.712
+offset_bottom = 0.020000458
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
+script = ExtResource("5_lqhkl")
+
+[node name="LThigh" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1353102454]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.716
+anchor_top = 0.77500004
+anchor_right = 1.5000001
+anchor_bottom = 2.3370001
+offset_left = -4.6400013
+offset_bottom = 0.019996643
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
+script = ExtResource("5_lqhkl")
+
+[node name="LCrus" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=565857236]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6
+anchor_top = 2.4
+anchor_right = 1.5000001
+anchor_bottom = 3.6870003
+offset_bottom = 0.019989014
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
+script = ExtResource("5_lqhkl")
+
+[node name="LFoot" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1086762442]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6
+anchor_top = 3.7500002
+anchor_right = 1.9000001
+anchor_bottom = 4.412
+offset_top = -1.5258789e-05
+offset_bottom = 0.019989014
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lqhkl")
+script = ExtResource("5_lqhkl")
+
+[node name="RThigh" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1321801180]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.5
+anchor_top = 0.77500004
+anchor_right = 0.4
+anchor_bottom = 2.3370001
+offset_bottom = 0.019996643
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
+script = ExtResource("5_lqhkl")
+
+[node name="RCrus" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1183445034]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.5
+anchor_top = 2.4
+anchor_right = 0.4
+anchor_bottom = 3.6870003
+offset_bottom = 0.019989014
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
+script = ExtResource("5_lqhkl")
+
+[node name="RFoot" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1973892723]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.90000004
+anchor_top = 3.7500002
+anchor_right = 0.4
+anchor_bottom = 4.412
+offset_top = -1.5258789e-05
+offset_bottom = 0.019989014
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8y7rk")
+script = ExtResource("5_lqhkl")
+
+[node name="LUpperArm" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=119750694]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.6
+anchor_top = -2.4
+anchor_right = 3.45
+anchor_bottom = -1.5120001
+offset_bottom = -0.019996643
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qcjqi")
+script = ExtResource("5_lqhkl")
+
+[node name="LForearm" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1847046312]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 3.525
+anchor_top = -2.4
+anchor_right = 5.3750005
+anchor_bottom = -1.5120001
+offset_right = -1.5258789e-05
+offset_bottom = -0.019996643
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qcjqi")
+script = ExtResource("5_lqhkl")
+
+[node name="LHand" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1694836228]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 5.425
+anchor_top = -2.4120002
+anchor_right = 6.275
+anchor_bottom = -1.5120001
+offset_top = -0.019989014
+offset_bottom = -0.51999664
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s25gh")
+script = ExtResource("5_lqhkl")
+
+[node name="RUpperArm" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1287648587]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -2.45
+anchor_top = -2.4
+anchor_right = -0.6
+anchor_bottom = -1.5120001
+offset_bottom = -0.019996643
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qcjqi")
+script = ExtResource("5_lqhkl")
+
+[node name="RForearm" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1073885109]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -4.3500004
+anchor_top = -2.4
+anchor_right = -2.5
+anchor_bottom = -1.5120001
+offset_left = 1.5258789e-05
+offset_right = 1.5258789e-05
+offset_bottom = -0.019996643
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qcjqi")
+script = ExtResource("5_lqhkl")
+
+[node name="RHand" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=181149028]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -5.2500005
+anchor_top = -2.4120002
+anchor_right = -4.4
+anchor_bottom = -1.5120001
+offset_left = 1.5258789e-05
+offset_top = -0.019989014
+offset_bottom = -0.51999664
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ujnyd")
+script = ExtResource("5_lqhkl")
+
+[node name="Status" type="Control" parent="Inventory/TabContainer" unique_id=704020388]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_er5qu")
+script = ExtResource("4_qcjqi")
+metadata/_tab_index = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Status" unique_id=447033711]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.023000002
+anchor_top = 0.065000005
+anchor_right = 0.058000002
+anchor_bottom = 0.13000001
+offset_left = 0.5039978
+offset_top = 0.024997711
+offset_right = 0.18399811
+offset_bottom = 0.049995422
+
+[node name="Label" type="Label" parent="Inventory/TabContainer/Status/VBoxContainer" unique_id=1603931628]
+layout_mode = 2
+text = "SMBIC v1.0
+U: <ID>"
+
+[node name="SurvivalTimeLabel" type="Label" parent="Inventory/TabContainer/Status/VBoxContainer" unique_id=641080553]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Time Survived"
+
+[node name="Menu" parent="." unique_id=1013408554 instance=ExtResource("18_ej7kq")]
+visible = false
+
+[node name="MoodleContainer" type="VBoxContainer" parent="." unique_id=1382497137]
+anchors_preset = -1
+anchor_left = 0.95400006
+anchor_top = 0.07700001
+anchor_right = 0.989
+anchor_bottom = 0.694
+offset_left = -0.008056641
+offset_top = 0.10399628
+offset_right = -0.32800293
+offset_bottom = 0.28799438
+grow_horizontal = 0
+script = ExtResource("9_mta0a")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1124383330]
+custom_minimum_size = Vector2(2, 2)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Tooltip" type="Control" parent="." unique_id=1919075673]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1.0
+offset_right = 41.0
+offset_bottom = 40.0
+mouse_filter = 2
+theme = ExtResource("2_ujnyd")
+script = ExtResource("6_ujnyd")
+
+[node name="Panel" type="Panel" parent="Tooltip" unique_id=1458990022]
+layout_mode = 0
+offset_top = 24.0
+offset_right = 40.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_50hf8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Tooltip/Panel" unique_id=1206292192]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="Title" type="RichTextLabel" parent="Tooltip/Panel/VBoxContainer" unique_id=1730233785]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "this a tooltip"
+fit_content = true
+
+[node name="Separator" type="ColorRect" parent="Tooltip/Panel/VBoxContainer" unique_id=949808128]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Description" type="RichTextLabel" parent="Tooltip/Panel/VBoxContainer" unique_id=1298841663]
+modulate = Color(0.80616075, 0.80616075, 0.8061606, 1)
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "the tip of the tool"
+fit_content = true
+autowrap_mode = 0
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Tooltip" unique_id=473929296]
+top_level = true
+layout_mode = 0
+offset_right = 346.0
+offset_bottom = 134.0
+mouse_filter = 2
+
+[node name="Pain" type="TextureRect" parent="." unique_id=160955091]
+visible = false
+clip_children = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -512.0
+offset_right = 512.0
+offset_bottom = 512.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3.73, 3.73)
+pivot_offset = Vector2(512, 512)
+mouse_filter = 2
+texture = ExtResource("20_g1k2i")
+
+[node name="Pain" type="TextureRect" parent="Pain" unique_id=724028731]
+modulate = Color(1, 0, 0, 0.7019608)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -512.0
+offset_right = 512.0
+offset_bottom = 512.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.365, 0.365)
+pivot_offset = Vector2(512, 512)
+mouse_filter = 2
+texture = ExtResource("17_0gtav")
+
+[node name="PainNoise" type="TextureRect" parent="." unique_id=291502523]
+visible = false
+modulate = Color(1, 0, 0, 1)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -512.0
+offset_right = 512.0
+offset_bottom = 512.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.445, 1.445)
+pivot_offset = Vector2(512, 512)
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_e3h3h")
+
+[node name="Blackout" type="ColorRect" parent="." unique_id=953459794]
+visible = false
+clip_children = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Noise" type="TextureRect" parent="Blackout" unique_id=1802788446]
+modulate = Color(1, 1, 1, 0.047058824)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1568.9551
+offset_top = -1029.65
+offset_right = 1503.0449
+offset_bottom = 1018.34985
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_ujnyd")
+
+[node name="Blur" type="CanvasLayer" parent="." unique_id=1881112467]
+visible = false
+
+[node name="Blur" type="ColorRect" parent="Blur" unique_id=1134820692]
+material = SubResource("ShaderMaterial_hpbnu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Sharp" type="CanvasLayer" parent="." unique_id=284244385]
+visible = false
+
+[node name="Sharp" type="ColorRect" parent="Sharp" unique_id=897445536]
+material = SubResource("ShaderMaterial_or0tx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DevConsole" type="Control" parent="." unique_id=1508064225]
+visible = false
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 0.68700004
+offset_bottom = -0.17602539
+script = ExtResource("10_50hf8")
+
+[node name="LineEdit" type="LineEdit" parent="DevConsole" unique_id=1926889104]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.001
+anchor_right = 1.0
+anchor_bottom = 1.0710001
+offset_top = 0.049987793
+offset_bottom = -0.10003662
+theme_override_styles/normal = SubResource("StyleBoxFlat_iakl3")
+theme_override_styles/focus = SubResource("StyleBoxFlat_iakl3")
+placeholder_text = "Type a command..."
+keep_editing_on_text_submit = true
+clear_button_enabled = true
+
+[node name="Panel" type="Panel" parent="DevConsole" unique_id=1515791492]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_iakl3")
+
+[node name="Output" type="RichTextLabel" parent="DevConsole/Panel" unique_id=1972372167]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+
+[node name="Afterimage" type="TextureRect" parent="." unique_id=1943428584]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Shock" type="ColorRect" parent="." unique_id=1375788007]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="tab_clicked" from="Inventory/TabContainer" to="." method="switch_to_tab"]
+[connection signal="tab_hovered" from="Inventory/TabContainer" to="." method="_on_tab_hovered"]
+[connection signal="text_submitted" from="DevConsole/LineEdit" to="DevConsole" method="_on_text_submitted"]

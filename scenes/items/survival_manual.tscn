@@ -1,0 +1,351 @@
+[gd_scene load_steps=22 format=3 uid="uid://58w0v4dejsi1"]
+
+[ext_resource type="Script" uid="uid://bvrl0305tsplr" path="res://scripts/items/survival_manual.gd" id="1_fceii"]
+[ext_resource type="Script" uid="uid://m4i611p645vp" path="res://scripts/items/survival_manual_gui.gd" id="2_hmr34"]
+[ext_resource type="Texture2D" uid="uid://cuc2adpiaximc" path="res://assets/textures/ui/icons/x.svg" id="3_c0s0y"]
+[ext_resource type="FontFile" uid="uid://crf2p4866uj8o" path="res://assets/fonts/JetBrains/JetBrainsMono-Regular.ttf" id="3_u3ar6"]
+[ext_resource type="FontFile" uid="uid://dpnooc43ew6xf" path="res://assets/fonts/JetBrains/JetBrainsMono-ExtraBold.ttf" id="4_u3ar6"]
+[ext_resource type="Texture2D" uid="uid://bi8xr6fdtsxuj" path="res://assets/textures/ui/icons/arrow.svg" id="4_ydu0d"]
+[ext_resource type="FontFile" uid="uid://c2dhg506abc6g" path="res://assets/fonts/JetBrains/JetBrainsMono-BoldItalic.ttf" id="5_1stpx"]
+[ext_resource type="FontFile" uid="uid://dxg0jlgu6pwjq" path="res://assets/fonts/JetBrains/JetBrainsMono-Italic.ttf" id="6_r470u"]
+[ext_resource type="FontFile" uid="uid://gwwa5kjgown3" path="res://assets/fonts/JetBrains/JetBrainsMono-Thin.ttf" id="7_wwsdc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fceii"]
+size = Vector3(0.505, 0.8, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hmr34"]
+albedo_color = Color(0.61, 0.5048767, 0.3233, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nftjh"]
+material = SubResource("StandardMaterial3D_hmr34")
+size = Vector3(0.5, 0.8, 0.05)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_k7m6o"]
+viewport_path = NodePath("Hinge/Front/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ehti"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_k7m6o")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_raq05"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_8ehti")
+size = Vector2(0.5, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c0s0y"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_hmr34"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_c0s0y")
+size = Vector3(0.48, 0.78, 0.01)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fceii"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_c0s0y")
+size = Vector3(0.48, 0.78, 0.01)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c0s0y"]
+bg_color = Color(0, 0, 0, 0.76862746)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydu0d"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nftjh"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="SurvivalManual" type="RigidBody3D"]
+script = ExtResource("1_fceii")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_fceii")
+
+[node name="Hinge" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+
+[node name="Front" type="Node3D" parent="Hinge"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.25, 0, 0)
+
+[node name="Cover" type="MeshInstance3D" parent="Hinge/Front"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.025)
+mesh = SubResource("BoxMesh_nftjh")
+skeleton = NodePath("")
+
+[node name="Front" type="MeshInstance3D" parent="Hinge/Front"]
+transform = Transform3D(-1, 8.742278e-08, -3.821371e-15, 0, -4.371139e-08, -1, -8.742278e-08, -1, 4.371139e-08, 0, 0, -0.051)
+mesh = SubResource("PlaneMesh_raq05")
+skeleton = NodePath("")
+
+[node name="Paper" type="MeshInstance3D" parent="Hinge/Front"]
+mesh = SubResource("BoxMesh_hmr34")
+skeleton = NodePath("")
+
+[node name="SubViewport" type="SubViewport" parent="Hinge/Front"]
+transparent_bg = true
+handle_input_locally = false
+gui_disable_input = true
+size = Vector2i(300, 512)
+
+[node name="ColorRect" type="ColorRect" parent="Hinge/Front/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1882353, 0, 0, 1)
+
+[node name="Control" type="VBoxContainer" parent="Hinge/Front/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 29.515
+offset_bottom = 29.514893
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Hinge/Front/SubViewport/Control"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "How 2 Not Die"
+horizontal_alignment = 1
+
+[node name="Back" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Cover" type="MeshInstance3D" parent="Back"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.025)
+mesh = SubResource("BoxMesh_nftjh")
+skeleton = NodePath("")
+
+[node name="Paper" type="MeshInstance3D" parent="Back"]
+mesh = SubResource("BoxMesh_fceii")
+skeleton = NodePath("")
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_hmr34")
+
+[node name="Panel" type="Panel" parent="GUI"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.15200001
+anchor_top = 0.037
+anchor_right = 0.846
+anchor_bottom = 0.96300006
+offset_left = -0.104003906
+offset_top = 0.024000168
+offset_right = 0.40795898
+offset_bottom = -0.024047852
+theme_override_styles/panel = SubResource("StyleBoxFlat_c0s0y")
+
+[node name="PageText" type="RichTextLabel" parent="GUI/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_u3ar6")
+theme_override_fonts/bold_font = ExtResource("4_u3ar6")
+theme_override_fonts/bold_italics_font = ExtResource("5_1stpx")
+theme_override_fonts/italics_font = ExtResource("6_r470u")
+theme_override_fonts/mono_font = ExtResource("7_wwsdc")
+bbcode_enabled = true
+context_menu_enabled = true
+selection_enabled = true
+drag_and_drop_selection_enabled = false
+
+[node name="ColorRect" type="ColorRect" parent="GUI/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.0050000004
+anchor_top = 0.96300006
+anchor_right = 1.005
+anchor_bottom = 1.0070001
+offset_top = 0.19995117
+offset_bottom = -0.20007324
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5176471)
+
+[node name="PageNumLabel" type="Label" parent="GUI/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+text = "1"
+
+[node name="Controls" type="Control" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CloseButton" type="Button" parent="GUI/Controls"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.126
+anchor_top = 0.056
+anchor_right = 0.126
+anchor_bottom = 0.056
+offset_left = -20.152008
+offset_top = -20.288002
+offset_right = 19.848022
+offset_bottom = 19.712181
+pivot_offset = Vector2(20, 20)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ydu0d")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nftjh")
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="GUI/Controls/CloseButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.087000005
+anchor_top = 0.148
+anchor_right = 0.91200006
+anchor_bottom = 0.85200006
+offset_left = -3.4800003
+offset_top = -5.92
+offset_right = 3.5199966
+offset_bottom = 5.919998
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+pivot_offset = Vector2(20, 20)
+mouse_filter = 2
+texture = ExtResource("3_c0s0y")
+expand_mode = 1
+
+[node name="PrevButton" type="Button" parent="GUI/Controls"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.124000005
+anchor_top = 0.94400007
+anchor_right = 0.124000005
+anchor_bottom = 0.94400007
+offset_left = -19.848007
+offset_top = -19.712036
+offset_right = 20.151993
+offset_bottom = 20.287964
+grow_vertical = 0
+pivot_offset = Vector2(20, 20)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ydu0d")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nftjh")
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="GUI/Controls/PrevButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.087000005
+anchor_top = 0.148
+anchor_right = 0.91200006
+anchor_bottom = 0.85200006
+offset_left = -3.4800003
+offset_top = -5.92
+offset_right = 3.5199966
+offset_bottom = 5.919998
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+pivot_offset = Vector2(20, 20)
+mouse_filter = 2
+texture = ExtResource("4_ydu0d")
+expand_mode = 1
+flip_h = true
+
+[node name="NextButton" type="Button" parent="GUI/Controls"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.873
+anchor_top = 0.94400007
+anchor_right = 0.873
+anchor_bottom = 0.94400007
+offset_left = -19.696045
+offset_top = -19.712036
+offset_right = 20.303955
+offset_bottom = 20.287964
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(20, 20)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ydu0d")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nftjh")
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="GUI/Controls/NextButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.087000005
+anchor_top = 0.148
+anchor_right = 0.91200006
+anchor_bottom = 0.85200006
+offset_left = -3.4800003
+offset_top = -5.92
+offset_right = 3.5199966
+offset_bottom = 5.919998
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+pivot_offset = Vector2(20, 20)
+mouse_filter = 2
+texture = ExtResource("4_ydu0d")
+expand_mode = 1

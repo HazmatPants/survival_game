@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpgphplye67np"]
+
+[ext_resource type="Script" uid="uid://b3uckwgki0bdy" path="res://scripts/items/food_item.gd" id="1_k3jgi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x03pv"]
+size = Vector3(0.145, 0.05, 0.26)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k3jgi"]
+albedo_color = Color(0.59, 0.34416667, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8l1au"]
+material = SubResource("StandardMaterial3D_k3jgi")
+size = Vector3(0.145, 0.05, 0.26)
+
+[node name="NutrientBlock" type="RigidBody3D"]
+script = ExtResource("1_k3jgi")
+calories = 0.121
+uses = 3
+display_name = "Nutrient Brick"
+id_name = "nutrient_block"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_x03pv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_8l1au")

@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://dua4hyhq0ylky"]
+
+[ext_resource type="Script" uid="uid://dt8hvi3hk7iv0" path="res://scripts/berry_bush.gd" id="1_xykto"]
+[ext_resource type="Texture2D" uid="uid://b81d3fwfag0b7" path="res://assets/textures/surface/grass.png" id="2_johh4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dy85o"]
+albedo_color = Color(0.14999998, 1, 0, 1)
+albedo_texture = ExtResource("2_johh4")
+normal_texture = ExtResource("2_johh4")
+uv1_triplanar = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_c4udp"]
+material = SubResource("StandardMaterial3D_dy85o")
+
+[sub_resource type="SphereMesh" id="SphereMesh_g2tf3"]
+material = SubResource("StandardMaterial3D_dy85o")
+radius = 0.42
+
+[sub_resource type="SphereMesh" id="SphereMesh_d8s1j"]
+material = SubResource("StandardMaterial3D_dy85o")
+radius = 0.435
+
+[node name="BerryBush" type="Node3D"]
+script = ExtResource("1_xykto")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22315374, 0.11209184)
+mesh = SubResource("SphereMesh_c4udp")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.9716092, 0.22745419, 0.06511644, 0.23654988, 0.9287561, 0.28540507, 0.0044392855, 0.29270548, -0.95619226, -0.0699096, 0.2126903, -0.22315814)
+mesh = SubResource("SphereMesh_g2tf3")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.83081937, 0, -0.55654216, 0, 1, 0, 0.55654216, 0, 0.83081937, 0.30571932, 0.14202297, -0.10202378)
+mesh = SubResource("SphereMesh_d8s1j")
+
+[node name="BerryPos" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45325327, 0.3908104, 0.23376524)
+
+[node name="BerryPos2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.211763, 0.5422094, -0.3467345)
+
+[node name="BerryPos3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3480848, 0.5422094, -0.09252158)
