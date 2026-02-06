@@ -307,11 +307,11 @@ func die():
 func _do_fall_damage(step_pos: Vector3, vel: float):
 	var fractured := false
 
-	if vel > 6:
+	if vel > 6.0:
 		GLOBAL.playsound3d(preload("res://assets/audio/sfx/player/land_medium1.ogg"), step_pos, 0.05)
 		viewpunch_target += Vector3(-0.4, 0.0, 0.5)
 
-	if vel > 8:
+	if vel > 8.0:
 		viewpunch += Vector3(-0.5, 0.0, 0.0)
 		viewpunch_target += Vector3(-1.0, 0.0, 0.0)
 		GLOBAL.playsound3d(preload("res://assets/audio/sfx/player/land_heavy1.ogg"), step_pos, 0.1)
@@ -320,7 +320,7 @@ func _do_fall_damage(step_pos: Vector3, vel: float):
 				limb.muscle_health -= randf_range(0.01, vel / 100)
 				limb.pain += randf_range(0.01, vel / 125)
 
-	if vel > 15:
+	if vel > 15.0:
 		GLOBAL.playsound3d(
 			preload("res://assets/audio/sfx/player/land_heavy2.ogg"), 
 			step_pos,
@@ -330,14 +330,14 @@ func _do_fall_damage(step_pos: Vector3, vel: float):
 		health.consciousness -= 0.6
 		randomize()
 		for limb in health.get_all_limbs():
-			if not limb.is_leg: return
+			if not limb.is_leg: continue
 			limb.pain += randf_range(0.3, vel / 15)
 			limb.fracture_amount += randf_range(0.3, vel / 15)
 			fractured = true
 			if randf() > 0.1:
 				break
 
-	if vel > 17:
+	if vel > 17.0:
 		health.consciousness = 0.0
 		health.adrenaline = 0.0
 		health.brain_health -= randf_range(0.1, vel / 100)

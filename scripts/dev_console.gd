@@ -138,6 +138,9 @@ func _on_text_submitted(new_text: String) -> void:
 				stat.set(args[0], args[1])
 			else:
 				printout("[color=red]sethealthvar: error: var %s not found[/color]" % args[0])
+		"explode":
+			var explosion = preload("res://scenes/explosion.tscn").instantiate()
 
+			get_tree().current_scene.add_child(explosion)
 		_:
 			printout("invalid command")

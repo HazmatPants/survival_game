@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://b7kplla3by70j"]
+
+[ext_resource type="Script" uid="uid://dtge76ksskq82" path="res://scripts/explosion.gd" id="1_17npe"]
+[ext_resource type="Texture2D" uid="uid://brej6ula0l0oq" path="res://assets/textures/particles/smoke.png" id="2_nfeox"]
+
+[sub_resource type="Curve" id="Curve_aw4cw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_i1xba"]
+curve = SubResource("Curve_aw4cw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3el85"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_max = 1.0
+radial_velocity_min = -0.50002235
+radial_velocity_max = 0.49997765
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+alpha_curve = SubResource("CurveTexture_i1xba")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i1xba"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.34158427, 0.34158427, 0.3415842, 1)
+albedo_texture = ExtResource("2_nfeox")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_hbmxj"]
+material = SubResource("StandardMaterial3D_i1xba")
+size = Vector2(10, 10)
+
+[node name="Explosion" type="Node3D" unique_id=2004594445]
+script = ExtResource("1_17npe")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1068817853]
+emitting = false
+amount = 32
+lifetime = 8.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3el85")
+draw_pass_1 = SubResource("QuadMesh_hbmxj")

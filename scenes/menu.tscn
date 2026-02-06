@@ -62,14 +62,19 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
 [node name="ResumeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=221717219]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Resume"
+
+[node name="SettingsButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=735557006]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Settings"
 
 [node name="Label" type="Label" parent="." unique_id=1852977975]
 layout_mode = 1
@@ -88,5 +93,104 @@ theme_override_font_sizes/font_size = 53
 text = "P A U S E D"
 horizontal_alignment = 1
 
+[node name="Settings" type="Control" parent="." unique_id=2013954646]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="ColorRect" parent="Settings" unique_id=27687532]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8352941)
+
+[node name="SettingsTabs" type="TabContainer" parent="Settings" unique_id=1647781072]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+clip_tabs = false
+
+[node name="Video" type="Control" parent="Settings/SettingsTabs" unique_id=87688595]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Audio" type="Control" parent="Settings/SettingsTabs" unique_id=460932178]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings/SettingsTabs/Audio" unique_id=121306118]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.94, 0.94)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+
+[node name="Master" type="HBoxContainer" parent="Settings/SettingsTabs/Audio/VBoxContainer" unique_id=88649453]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/SettingsTabs/Audio/VBoxContainer/Master" unique_id=715636190]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="Settings/SettingsTabs/Audio/VBoxContainer/Master" unique_id=859220811]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+max_value = 2.0
+step = 0.05
+value = 1.0
+
+[node name="MasterVolValue" type="Label" parent="Settings/SettingsTabs/Audio/VBoxContainer/Master" unique_id=539679127]
+unique_name_in_owner = true
+layout_mode = 2
+text = "100%"
+
+[node name="SFX" type="HBoxContainer" parent="Settings/SettingsTabs/Audio/VBoxContainer" unique_id=970045463]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/SettingsTabs/Audio/VBoxContainer/SFX" unique_id=925318565]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="HSlider" type="HSlider" parent="Settings/SettingsTabs/Audio/VBoxContainer/SFX" unique_id=1471203359]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+max_value = 2.0
+step = 0.05
+value = 1.0
+
+[node name="SFXVolValue" type="Label" parent="Settings/SettingsTabs/Audio/VBoxContainer/SFX" unique_id=459251568]
+unique_name_in_owner = true
+layout_mode = 2
+text = "100%"
+
+[node name="X" type="Control" parent="Settings/SettingsTabs" unique_id=439483420]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
 [connection signal="mouse_entered" from="CenterContainer/Panel/VBoxContainer/ResumeButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="CenterContainer/Panel/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="mouse_entered" from="CenterContainer/Panel/VBoxContainer/SettingsButton" to="." method="_on_button_hover"]
+[connection signal="pressed" from="CenterContainer/Panel/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="tab_hovered" from="Settings/SettingsTabs" to="." method="_on_tab_hovered"]
+[connection signal="tab_selected" from="Settings/SettingsTabs" to="." method="_on_tab_selected"]
+[connection signal="value_changed" from="Settings/SettingsTabs/Audio/VBoxContainer/Master/HSlider" to="." method="_on_master_volume_value_changed"]
+[connection signal="value_changed" from="Settings/SettingsTabs/Audio/VBoxContainer/SFX/HSlider" to="." method="_on_sfx_volume_value_changed"]

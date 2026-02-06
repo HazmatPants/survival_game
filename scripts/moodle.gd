@@ -252,7 +252,7 @@ func _process(_delta: float) -> void:
 				MOODLE_DESCRIPTIONS["cardiac_arrest"]
 			)
 		"lactic_acid":
-			if intensity < 0.01: return
+			if intensity < 0.01: hide(); return
 			$Icon.texture = MOODLE_ICONS[name]
 			show()
 			GLOBAL.player.hud.set_tooltip(

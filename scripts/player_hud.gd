@@ -18,7 +18,6 @@ func _ready() -> void:
 	$Tooltip.request_tooltip("this is a very very very very very long title", "description")
 	$UIBlur.show()
 	$Blur.show()
-	$Menu.show()
 	$Blackout.show()
 	$Pain.show()
 	$PainNoise.show()

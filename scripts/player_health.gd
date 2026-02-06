@@ -133,7 +133,8 @@ func _process(delta: float) -> void:
 	if beat_timer >= beat_interval:
 		HeartBeat.emit()
 		if not consciousness <= UNCONSCIOUS_THRESHOLD:
-			GLOBAL.playsound(SFX_HEARTBEAT, 0.025)
+			var beat_volume = smoothstep(0.0, 3.0, heart_rate / 200)
+			GLOBAL.playsound(SFX_HEARTBEAT, beat_volume)
 		beat_timer -= beat_interval
 
 	var total_pain = get_limb_total("pain")

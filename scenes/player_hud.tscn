@@ -962,9 +962,6 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Time Survived"
 
-[node name="Menu" parent="." unique_id=1013408554 instance=ExtResource("18_ej7kq")]
-visible = false
-
 [node name="MoodleContainer" type="VBoxContainer" parent="." unique_id=1382497137]
 anchors_preset = -1
 anchor_left = 0.95400006
@@ -978,7 +975,7 @@ offset_bottom = 0.28799438
 grow_horizontal = 0
 script = ExtResource("9_mta0a")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1124383330]
+[node name="Crosshair" type="ColorRect" parent="." unique_id=1124383330]
 custom_minimum_size = Vector2(2, 2)
 anchors_preset = 8
 anchor_left = 0.5
@@ -1205,6 +1202,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1090772672]
+
+[node name="Menu" parent="CanvasLayer" unique_id=1013408554 instance=ExtResource("18_ej7kq")]
+visible = false
 
 [connection signal="tab_clicked" from="Inventory/TabContainer" to="." method="switch_to_tab"]
 [connection signal="tab_hovered" from="Inventory/TabContainer" to="." method="_on_tab_hovered"]
