@@ -57,7 +57,7 @@ func _on_text_submitted(new_text: String) -> void:
 			printout(help)
 		"moodle":
 			if args.size() < 1:
-				printout("[color=red]moodle: error: missing subcommand (getall)[/color]")
+				printout("[color=red]moodle: error: missing subcommand (getall, add)[/color]")
 				return
 			var subcommand = args.pop_front()
 			match subcommand:
@@ -65,6 +65,11 @@ func _on_text_submitted(new_text: String) -> void:
 					var moodles = GLOBAL.player.health.moodles
 					for moodle in moodles:
 						printout(moodle)
+				"add":
+					if args.size() < 1:
+						printout("[color=red]moodle: error: missing target moodle[/color]")
+						return
+					GLOBAL.player.health.moodles[args[0]] = {"intensity": 1.0}
 				_:
 					printout("[color=red]moodle: error: %s is not a valid subcommand[/color]" % subcommand)
 		"time":
@@ -109,6 +114,30 @@ func _on_text_submitted(new_text: String) -> void:
 					printout("[color=red]time: error: %s is not a valid subcommand[/color]" % subcommand)
 		"vomit":
 			GLOBAL.player.health.vomiting = true
-			GLOBAL.player.health.vomit_timer = 10.0
+			GLOBAL.player.health.vomit_timer = 10.0#
+		"sethealthvar":
+			if args.size() < 1:
+				printout("[color=red]sethealthvar: error: missing target value[/color]")
+				return
+			if args.size() < 2:
+				printout("[color=red]sethealthvar: error: missing new value[/color]")
+				return
+			var stat: Node = GLOBAL.player.health
+
+			var properties = stat.get_property_list()
+
+			var found := false
+
+			for prop in properties:
+				print(prop["name"])
+				if prop["name"] == args[0]:
+					found = true
+					break
+
+			if found:
+				stat.set(args[0], args[1])
+			else:
+				printout("[color=red]sethealthvar: error: var %s not found[/color]" % args[0])
+
 		_:
 			printout("invalid command")

@@ -105,9 +105,9 @@ var insulation: float = 1.0
 var heart_attack: float = 0.0
 var rhabdomyolysis: float = 0.0
 var hearing_damage: float = 0.0
-const O2_USE_RATE: float = 0.1
+const O2_USE_RATE: float = 0.05
 const BRAIN_DAMAGE_O2_THRESHOLD: float = 0.75
-const CONSC_O2_THRESHOLD: float = 0.8
+const CONSC_O2_THRESHOLD: float = 0.6
 const CONSC_STAMINA_THRESHOLD: float = 0.05
 const UNCONSCIOUS_THRESHOLD: float = 0.05
 
@@ -159,14 +159,21 @@ func _process(delta: float) -> void:
 	if stamina < 0.5:
 		target_hr += (0.5 - stamina) * 60.0
 
-	heart_rate = lerp(heart_rate, target_hr, 0.0025)
+	if get_moodle("cardiac_arrest"):
+		target_hr = 0.0
+		get_limb("Thorax").pain += 0.05 * delta
+
+	if get_moodle("cardiac_arrest"):
+		heart_rate = lerp(heart_rate, target_hr, 0.01)
+	else:
+		heart_rate = lerp(heart_rate, target_hr, 0.0025)
 
 	var blood_fraction = (blood_volume / 5.0)
 
 	if get_limb("Thorax").muscle_health <= 0.0:
 		set_moodle("respiratory_arrest")
 
-	if not moodles.has("respiratory_arrest"):
+	if not get_moodle("cardiac_arrest") and not get_moodle("cardiac_arrest"):
 		blood_o2 += (o2_regen_rate * blood_fraction) * delta
 
 	blood_o2 = clampf(blood_o2, 0.0, temperature / 36.5)
@@ -218,16 +225,18 @@ func _process(delta: float) -> void:
 	$Pain.volume_linear = clampf(total_pain - 0.1, 0.0, 2.0)
 	$Pain.pitch_scale = lerpf($Pain.pitch_scale, clampf(1.0 + total_pain, 1.0, 5.0), 0.1)
 	$Agony.volume_linear = clampf(ease(total_pain, 4), 0.0, 2.0) * 2
+	$Cold.volume_linear = clampf((37 / temperature) - 1.0, 0.0, 1.0)
 	$Tinnitus.volume_linear = clampf(hearing_damage, 0.0, 2.0)
 
 	if (
 		blood_o2 < 0.7 or
 		calories < 0.0 or
-		hydration < 0.0
+		hydration < 0.0 or 
+		"heart_attack" in moodles
 	):
-		$Dying.volume_linear = lerpf($Dying.volume_linear, 2.0, 0.05)
+		$Dying.volume_linear = lerpf($Dying.volume_linear, 2.0, 0.025)
 	else:
-		$Dying.volume_linear = lerpf($Dying.volume_linear, 0.0, 0.05)
+		$Dying.volume_linear = lerpf($Dying.volume_linear, 0.0, 0.025)
 
 	hearing_damage -= 0.01 * delta
 	hearing_damage = clampf(hearing_damage, 0.0, 100.0)
@@ -258,7 +267,7 @@ func _process(delta: float) -> void:
 	else:
 		$Brownian.volume_linear = lerpf($Brownian.volume_linear, 1.0 - brain_health, 0.05)
 		if brain_health < 0.05:
-			$Brownian.volume_linear += (0.05 - brain_health) * 8
+			$Brownian.volume_linear += (0.05 - brain_health)
 		if consciousness > UNCONSCIOUS_THRESHOLD:
 			$Brownian.volume_linear /= 10
 
@@ -363,8 +372,11 @@ func _process(delta: float) -> void:
 
 	consciousness += 0.05 * (1.0 + (adrenaline * 8)) * delta
 
-	if blood_o2 < 0.8:
-		heart_attack += 0.01 * delta
+	if brain_health < 0.7:
+		heart_attack += 0.05 * delta
+
+	if blood_o2 < 0.85:
+		heart_attack += 0.05 * delta
 
 	if total_pain > 1.5:
 		heart_attack += 0.01 * delta
@@ -374,6 +386,11 @@ func _process(delta: float) -> void:
 
 	if heart_attack >= 1.0:
 		set_moodle("heart_attack")
+
+	if heart_attack >= 1.5:
+		set_moodle("cardiac_arrest")
+
+	set_moodle("lactic_acid", get_limb_all("lactic_acid").values().max())
 
 	if brain_o2 <= CONSC_O2_THRESHOLD:
 		consciousness -= (CONSC_O2_THRESHOLD - brain_o2) * delta

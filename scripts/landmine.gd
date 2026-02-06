@@ -87,6 +87,7 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 					collider.owner.name, collider.name
 					])
 				if collider is Limb:
+					body.shock += Vector3.ONE * 0.05
 					GLOBAL.playsound(
 						preload("res://assets/audio/sfx/player/impact/bullet_hit_flesh_lfe.wav"),
 						5.0,

@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://dv7l56yubwqdk" path="res://scripts/player_health_gui.gd" id="2_er5qu"]
 [ext_resource type="Theme" uid="uid://b86kw1uh4ns8s" path="res://assets/res/theme.tres" id="2_ujnyd"]
 [ext_resource type="Shader" uid="uid://c830pars22brw" path="res://assets/shaders/blur.gdshader" id="3_er5qu"]
-[ext_resource type="Script" uid="uid://cjms6ifrnmp7c" path="res://scripts/player_inventory_gui.gd" id="3_s25gh"]
 [ext_resource type="Script" uid="uid://cankx17o6tuy" path="res://scripts/player_os_gui.gd" id="4_qcjqi"]
 [ext_resource type="Script" uid="uid://b1c6j88guckrw" path="res://scripts/player_gui_limb.gd" id="5_lqhkl"]
 [ext_resource type="Texture2D" uid="uid://d4c2qrevodqxs" path="res://assets/textures/ui/icons/brain.svg" id="5_mta0a"]
@@ -48,9 +47,6 @@ shader = SubResource("Shader_3pvjt")
 shader_parameter/blur_amount = 9.49999998667295e-08
 shader_parameter/mix_amount = 0.0
 shader_parameter/color_over = Color(0, 0, 0, 1)
-
-[sub_resource type="Theme" id="Theme_er5qu"]
-default_font_size = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_otbg0"]
 bg_color = Color(0, 0, 0, 1)
@@ -226,6 +222,9 @@ border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="Theme" id="Theme_er5qu"]
+default_font_size = 24
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50hf8"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 4
@@ -330,23 +329,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-current_tab = 1
+current_tab = 0
 all_tabs_in_front = true
 
-[node name="Inventory" type="Control" parent="Inventory/TabContainer" unique_id=598668197]
-visible = false
-layout_mode = 2
-theme = SubResource("Theme_er5qu")
-script = ExtResource("3_s25gh")
-metadata/_tab_index = 0
-
-[node name="Health" type="Control" parent="Inventory/TabContainer" unique_id=292131393]
+[node name="Self" type="Control" parent="Inventory/TabContainer" unique_id=292131393]
 texture_filter = 1
 layout_mode = 2
 script = ExtResource("2_er5qu")
-metadata/_tab_index = 1
+metadata/_tab_index = 0
 
-[node name="HealthStatus" type="Panel" parent="Inventory/TabContainer/Health" unique_id=1983828940]
+[node name="HealthStatus" type="Panel" parent="Inventory/TabContainer/Self" unique_id=1983828940]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.028
@@ -359,7 +351,7 @@ offset_right = -0.52801514
 offset_bottom = 0.27474976
 theme_override_styles/panel = SubResource("StyleBoxFlat_otbg0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus" unique_id=1789621711]
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus" unique_id=1789621711]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -368,21 +360,21 @@ offset_bottom = -0.30499268
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Brain" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=2062165135]
+[node name="Brain" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=2062165135]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain" unique_id=1387422907]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Brain" unique_id=1387422907]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("5_mta0a")
 expand_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain" unique_id=924897910]
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Brain" unique_id=924897910]
 layout_mode = 2
 theme_override_constants/separation = -2
 alignment = 1
 
-[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer" unique_id=998492788]
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Brain/VBoxContainer" unique_id=998492788]
 layout_mode = 2
 max_value = 1.0
 step = 0.0
@@ -390,46 +382,46 @@ value = 1.0
 texture_under = SubResource("GradientTexture2D_43ll4")
 texture_progress = SubResource("GradientTexture2D_hpbnu")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer" unique_id=2114221609]
+[node name="HBoxContainer" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Brain/VBoxContainer" unique_id=2114221609]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer/HBoxContainer" unique_id=1247104348]
+[node name="Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Brain/VBoxContainer/HBoxContainer" unique_id=1247104348]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "100%"
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer/HBoxContainer" unique_id=407981193]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Brain/VBoxContainer/HBoxContainer" unique_id=407981193]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 texture = ExtResource("6_3pvjt")
 expand_mode = 1
 
-[node name="O2Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Brain/VBoxContainer/HBoxContainer" unique_id=1265454824]
+[node name="O2Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Brain/VBoxContainer/HBoxContainer" unique_id=1265454824]
 layout_mode = 2
 text = "100%"
 
-[node name="Separator" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1788212670]
+[node name="Separator" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=1788212670]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 texture = ExtResource("6_7yc75")
 expand_mode = 3
 stretch_mode = 1
 
-[node name="Consciousness" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=425117583]
+[node name="Consciousness" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=425117583]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Consciousness" unique_id=800623781]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Consciousness" unique_id=800623781]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("7_aiaqn")
 expand_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Consciousness" unique_id=1444320507]
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Consciousness" unique_id=1444320507]
 layout_mode = 2
 theme_override_constants/separation = -2
 alignment = 1
 
-[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Consciousness/VBoxContainer" unique_id=1952095163]
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Consciousness/VBoxContainer" unique_id=1952095163]
 layout_mode = 2
 max_value = 1.0
 step = 0.0
@@ -437,45 +429,45 @@ value = 1.0
 texture_under = SubResource("GradientTexture2D_43ll4")
 texture_progress = SubResource("GradientTexture2D_hpbnu")
 
-[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Consciousness/VBoxContainer" unique_id=1750535609]
+[node name="Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Consciousness/VBoxContainer" unique_id=1750535609]
 layout_mode = 2
 text = "100%"
 
-[node name="Pain" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1776334441]
+[node name="Pain" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=1776334441]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Pain" unique_id=1457343289]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Pain" unique_id=1457343289]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("9_ke71k")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Pain" unique_id=588369683]
+[node name="Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Pain" unique_id=588369683]
 layout_mode = 2
 text = "100%"
 
-[node name="Separator2" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=550437346]
+[node name="Separator2" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=550437346]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 texture = ExtResource("6_7yc75")
 expand_mode = 3
 stretch_mode = 1
 
-[node name="Blood" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1464085591]
+[node name="Blood" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=1464085591]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood" unique_id=896378884]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Blood" unique_id=896378884]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("10_ke71k")
 expand_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood" unique_id=943547030]
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Blood" unique_id=943547030]
 layout_mode = 2
 theme_override_constants/separation = -2
 alignment = 1
 
-[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer" unique_id=502040138]
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Blood/VBoxContainer" unique_id=502040138]
 layout_mode = 2
 max_value = 1.0
 step = 0.0
@@ -483,32 +475,32 @@ value = 1.0
 texture_under = SubResource("GradientTexture2D_43ll4")
 texture_progress = SubResource("GradientTexture2D_2c2e2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer" unique_id=942111751]
+[node name="HBoxContainer" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Blood/VBoxContainer" unique_id=942111751]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer/HBoxContainer" unique_id=722828385]
+[node name="Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Blood/VBoxContainer/HBoxContainer" unique_id=722828385]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "100%"
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer/HBoxContainer" unique_id=210605680]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Blood/VBoxContainer/HBoxContainer" unique_id=210605680]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 texture = ExtResource("6_3pvjt")
 expand_mode = 1
 
-[node name="O2Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/VBoxContainer/HBoxContainer" unique_id=1505231686]
+[node name="O2Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Blood/VBoxContainer/HBoxContainer" unique_id=1505231686]
 layout_mode = 2
 text = "100%"
 
-[node name="BloodArroControl" type="Control" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood" unique_id=1712017160]
+[node name="BloodArroControl" type="Control" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Blood" unique_id=1712017160]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="BloodArrow" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Blood/BloodArroControl" unique_id=689001331]
+[node name="BloodArrow" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Blood/BloodArroControl" unique_id=689001331]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 1
@@ -531,31 +523,31 @@ texture = ExtResource("11_rhti3")
 expand_mode = 1
 flip_v = true
 
-[node name="Separator3" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=726200174]
+[node name="Separator3" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=726200174]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 texture = ExtResource("6_7yc75")
 expand_mode = 3
 stretch_mode = 1
 
-[node name="Sustenance" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1448103987]
+[node name="Sustenance" type="VBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=1448103987]
 layout_mode = 2
 theme_override_constants/separation = -2
 alignment = 1
 
-[node name="Calories" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance" unique_id=948880355]
+[node name="Calories" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance" unique_id=948880355]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Calories" unique_id=2041196775]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance/Calories" unique_id=2041196775]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("11_iakl3")
 expand_mode = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Calories" unique_id=2140302594]
+[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance/Calories" unique_id=2140302594]
 layout_mode = 2
 
-[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Calories/CenterContainer" unique_id=197071394]
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance/Calories/CenterContainer" unique_id=197071394]
 layout_mode = 2
 max_value = 2.0
 step = 0.0
@@ -563,24 +555,24 @@ value = 1.0
 texture_under = SubResource("GradientTexture2D_43ll4")
 texture_progress = SubResource("GradientTexture2D_a4ece")
 
-[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Calories" unique_id=219217634]
+[node name="Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance/Calories" unique_id=219217634]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "100%"
 
-[node name="Hydration" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance" unique_id=2082121978]
+[node name="Hydration" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance" unique_id=2082121978]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Hydration" unique_id=1329202780]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance/Hydration" unique_id=1329202780]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("12_0gtav")
 expand_mode = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Hydration" unique_id=1319934815]
+[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance/Hydration" unique_id=1319934815]
 layout_mode = 2
 
-[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Hydration/CenterContainer" unique_id=216350415]
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance/Hydration/CenterContainer" unique_id=216350415]
 layout_mode = 2
 max_value = 2.0
 step = 0.0
@@ -588,36 +580,36 @@ value = 1.0
 texture_under = SubResource("GradientTexture2D_43ll4")
 texture_progress = SubResource("GradientTexture2D_ej7kq")
 
-[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Sustenance/Hydration" unique_id=1626823592]
+[node name="Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Sustenance/Hydration" unique_id=1626823592]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "100%"
 
-[node name="Separator4" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=973295650]
+[node name="Separator4" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=973295650]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 texture = ExtResource("6_7yc75")
 expand_mode = 3
 stretch_mode = 1
 
-[node name="Work" type="VBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=377278176]
+[node name="Work" type="VBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=377278176]
 layout_mode = 2
 theme_override_constants/separation = -2
 alignment = 1
 
-[node name="Stamina" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work" unique_id=1978193456]
+[node name="Stamina" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work" unique_id=1978193456]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Stamina" unique_id=515643304]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work/Stamina" unique_id=515643304]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("13_e3h3h")
 expand_mode = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Stamina" unique_id=2070004678]
+[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work/Stamina" unique_id=2070004678]
 layout_mode = 2
 
-[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Stamina/CenterContainer" unique_id=1632245991]
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work/Stamina/CenterContainer" unique_id=1632245991]
 layout_mode = 2
 max_value = 1.0
 step = 0.0
@@ -625,24 +617,24 @@ value = 1.0
 texture_under = SubResource("GradientTexture2D_rhti3")
 texture_progress = SubResource("GradientTexture2D_g1k2i")
 
-[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Stamina" unique_id=769500537]
+[node name="Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work/Stamina" unique_id=769500537]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "100%"
 
-[node name="Work" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work" unique_id=1378038094]
+[node name="Work" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work" unique_id=1378038094]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Work" unique_id=1837954618]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work/Work" unique_id=1837954618]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("14_a4ece")
 expand_mode = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Work" unique_id=2121799261]
+[node name="CenterContainer" type="CenterContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work/Work" unique_id=2121799261]
 layout_mode = 2
 
-[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Work/CenterContainer" unique_id=162615130]
+[node name="Bar" type="TextureProgressBar" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work/Work/CenterContainer" unique_id=162615130]
 layout_mode = 2
 max_value = 1.0
 step = 0.0
@@ -650,28 +642,28 @@ value = 1.0
 texture_under = SubResource("GradientTexture2D_rlnkx")
 texture_progress = SubResource("GradientTexture2D_hpbnu")
 
-[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Work/Work" unique_id=208261227]
+[node name="Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Work/Work" unique_id=208261227]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "100%"
 
-[node name="Separator5" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1835356814]
+[node name="Separator5" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=1835356814]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 texture = ExtResource("6_7yc75")
 expand_mode = 3
 stretch_mode = 1
 
-[node name="Temperature" type="HBoxContainer" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer" unique_id=1583895462]
+[node name="Temperature" type="HBoxContainer" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer" unique_id=1583895462]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Temperature" unique_id=435046318]
+[node name="TextureRect" type="TextureRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Temperature" unique_id=435046318]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("15_a4ece")
 expand_mode = 1
 
-[node name="ColorRect" type="ColorRect" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Temperature/TextureRect" unique_id=2125691754]
+[node name="ColorRect" type="ColorRect" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Temperature/TextureRect" unique_id=2125691754]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = -1
@@ -686,11 +678,12 @@ offset_bottom = 0.007007599
 pivot_offset = Vector2(4, 19)
 color = Color(0.6996537, 0.6996534, 0.69965345, 1)
 
-[node name="Label" type="Label" parent="Inventory/TabContainer/Health/HealthStatus/VBoxContainer/Temperature" unique_id=2146571233]
+[node name="Label" type="Label" parent="Inventory/TabContainer/Self/HealthStatus/VBoxContainer/Temperature" unique_id=2146571233]
 layout_mode = 2
 text = "27°C"
 
-[node name="Body" type="Control" parent="Inventory/TabContainer/Health" unique_id=1831302375]
+[node name="Body" type="Control" parent="Inventory/TabContainer/Self" unique_id=1831302375]
+unique_name_in_owner = true
 layout_mode = 1
 anchor_left = 0.528
 anchor_top = 0.47800002
@@ -703,7 +696,7 @@ offset_bottom = -0.046051025
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Head" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1168992842]
+[node name="Head" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1168992842]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.5
@@ -717,7 +710,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_iraov")
 script = ExtResource("5_lqhkl")
 
-[node name="Neck" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=907916735]
+[node name="Neck" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=907916735]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.22500001
@@ -731,7 +724,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_iraov")
 script = ExtResource("5_lqhkl")
 
-[node name="Thorax" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1118314839]
+[node name="Thorax" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1118314839]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.5
@@ -744,7 +737,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_er5qu")
 script = ExtResource("5_lqhkl")
 
-[node name="Heart" type="Panel" parent="Inventory/TabContainer/Health/Body/Thorax" unique_id=1928758270]
+[node name="Heart" type="Panel" parent="Inventory/TabContainer/Self/Body/Thorax" unique_id=1928758270]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(12, 16)
 layout_mode = 1
@@ -762,7 +755,7 @@ grow_vertical = 2
 pivot_offset = Vector2(6, 4.7)
 theme_override_styles/panel = SubResource("StyleBoxFlat_a4ece")
 
-[node name="Abdomen" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1469748840]
+[node name="Abdomen" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1469748840]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.5
@@ -775,7 +768,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
 script = ExtResource("5_lqhkl")
 
-[node name="LThigh" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1353102454]
+[node name="LThigh" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1353102454]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.716
@@ -789,7 +782,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
 script = ExtResource("5_lqhkl")
 
-[node name="LCrus" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=565857236]
+[node name="LCrus" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=565857236]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.6
@@ -802,7 +795,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
 script = ExtResource("5_lqhkl")
 
-[node name="LFoot" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1086762442]
+[node name="LFoot" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1086762442]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.6
@@ -816,7 +809,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lqhkl")
 script = ExtResource("5_lqhkl")
 
-[node name="RThigh" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1321801180]
+[node name="RThigh" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1321801180]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.5
@@ -829,7 +822,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
 script = ExtResource("5_lqhkl")
 
-[node name="RCrus" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1183445034]
+[node name="RCrus" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1183445034]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.5
@@ -842,7 +835,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_or0tx")
 script = ExtResource("5_lqhkl")
 
-[node name="RFoot" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1973892723]
+[node name="RFoot" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1973892723]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.90000004
@@ -856,7 +849,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_8y7rk")
 script = ExtResource("5_lqhkl")
 
-[node name="LUpperArm" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=119750694]
+[node name="LUpperArm" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=119750694]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.6
@@ -869,7 +862,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qcjqi")
 script = ExtResource("5_lqhkl")
 
-[node name="LForearm" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1847046312]
+[node name="LForearm" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1847046312]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 3.525
@@ -883,7 +876,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qcjqi")
 script = ExtResource("5_lqhkl")
 
-[node name="LHand" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1694836228]
+[node name="LHand" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1694836228]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 5.425
@@ -897,7 +890,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_s25gh")
 script = ExtResource("5_lqhkl")
 
-[node name="RUpperArm" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1287648587]
+[node name="RUpperArm" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1287648587]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -2.45
@@ -910,7 +903,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qcjqi")
 script = ExtResource("5_lqhkl")
 
-[node name="RForearm" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=1073885109]
+[node name="RForearm" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=1073885109]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -4.3500004
@@ -925,7 +918,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qcjqi")
 script = ExtResource("5_lqhkl")
 
-[node name="RHand" type="Panel" parent="Inventory/TabContainer/Health/Body" unique_id=181149028]
+[node name="RHand" type="Panel" parent="Inventory/TabContainer/Self/Body" unique_id=181149028]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -5.2500005
@@ -945,7 +938,7 @@ visible = false
 layout_mode = 2
 theme = SubResource("Theme_er5qu")
 script = ExtResource("4_qcjqi")
-metadata/_tab_index = 2
+metadata/_tab_index = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Inventory/TabContainer/Status" unique_id=447033711]
 layout_mode = 1

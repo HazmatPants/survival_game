@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bnp8yuuf0t452" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://dww7813betqkn" path="res://scripts/player_health.gd" id="2_g2els"]
 [ext_resource type="PackedScene" uid="uid://cd8c3mjn84gs1" path="res://scenes/player_hud.tscn" id="2_qhqgy"]
+[ext_resource type="Script" uid="uid://k4ejxmdntbrm" path="res://scripts/inventory.gd" id="3_jej6c"]
 [ext_resource type="Script" uid="uid://cfklj70igifru" path="res://scripts/player_limb.gd" id="4_dqkch"]
 [ext_resource type="AudioStream" uid="uid://ctmg2pfkrc4q4" path="res://assets/audio/bgs/pant.ogg" id="4_qlg0r"]
 [ext_resource type="AudioStream" uid="uid://d4evhogelv2h5" path="res://assets/audio/bgs/brownian.ogg" id="5_fjrip"]
@@ -12,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://ba7amvialhq43" path="res://assets/audio/bgs/peace.wav" id="7_3v2ag"]
 [ext_resource type="AudioStream" uid="uid://dfi2rwe6xsbej" path="res://assets/audio/bgs/agony.ogg" id="7_y4r1p"]
 [ext_resource type="AudioStream" uid="uid://kdbpklpc73e5" path="res://assets/audio/bgs/tinnitus.ogg" id="8_d2wvv"]
+[ext_resource type="AudioStream" uid="uid://b0yhcb256l87v" path="res://assets/audio/bgs/cold.ogg" id="11_f1ej7"]
 
 [sub_resource type="Animation" id="Animation_qlg0r"]
 length = 0.001
@@ -760,6 +762,9 @@ libraries/ = SubResource("AnimationLibrary_tuyoq")
 
 [node name="HUD" parent="." unique_id=24043744 instance=ExtResource("2_qhqgy")]
 
+[node name="Inventory" type="Node" parent="." unique_id=842019300]
+script = ExtResource("3_jej6c")
+
 [node name="Health" type="Node" parent="." unique_id=386984648]
 script = ExtResource("2_g2els")
 
@@ -792,6 +797,12 @@ autoplay = true
 
 [node name="Tinnitus" type="AudioStreamPlayer" parent="Health" unique_id=1542374355]
 stream = ExtResource("8_d2wvv")
+volume_db = -80.0
+autoplay = true
+bus = &"Tinnitus"
+
+[node name="Cold" type="AudioStreamPlayer" parent="Health" unique_id=1945291536]
+stream = ExtResource("11_f1ej7")
 volume_db = -80.0
 autoplay = true
 bus = &"Tinnitus"

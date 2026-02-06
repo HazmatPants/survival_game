@@ -22,14 +22,12 @@ var health: PlayerHealth
 var particles_blood: GPUParticles3D = null
 
 func _ready() -> void:
-	SimpleGrass.set_interactive(true)
 	particles_blood = preload("res://scenes/blood_particles.tscn").instantiate()
 	add_child(particles_blood)
 
 	owner.foot_stepped.connect(_footstep)
 
 func _process(delta: float) -> void:
-	SimpleGrass.set_player_position(global_position)
 	health = owner.health
 	if not health: return
 
@@ -59,7 +57,7 @@ func _process(delta: float) -> void:
 
 	fracture_amount = clampf(fracture_amount, 0.0, 1.0)
 
-	pain = clampf(pain, fracture_amount / 10, 1.0)
+	pain = clampf(pain, fracture_amount / 4, 1.0)
 
 	if health.stamina < 0.3 and is_leg and owner.is_moving:
 		lactic_acid += 0.01 * delta

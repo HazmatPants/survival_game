@@ -23,6 +23,7 @@ func _use(player: CharacterBody3D):
 	player.health.hydration += hydration
 	uses -= 1
 	if uses < 1:
+		drop(player)
 		queue_free()
 
 func use(player: CharacterBody3D):

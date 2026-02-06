@@ -12,9 +12,9 @@ func pickup(player: CharacterBody3D):
 	_pickup(player)
 
 func _pickup(player: CharacterBody3D):
-	if not player.held_item == null: return
+	if player.inventory.hands_full(): return
 	freeze = false
-	player.held_item = self
+	player.inventory.pickup(self)
 	is_held = true
 	gravity_scale = 0.0
 	linear_velocity = Vector3.ZERO
@@ -24,9 +24,7 @@ func _pickup(player: CharacterBody3D):
 func drop(player: CharacterBody3D):
 	_drop(player)
 
-func _drop(player: CharacterBody3D):
-	if player.held_item == null: return
-	player.held_item = null
+func _drop(_player: CharacterBody3D):
 	is_held = false
 	gravity_scale = 1.0
 	collision_shape.disabled = false

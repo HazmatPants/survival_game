@@ -93,7 +93,7 @@ func get_element(element: NodePath) -> Control:
 
 func _heartbeat():
 	if not owner.is_menu_open: return
-	if owner.tabs.current_tab != 1: return
+	if owner.tabs.current_tab != 0: return
 	GLOBAL.playsound(preload("res://assets/audio/sfx/player/heart_gui.wav"), 0.1, 0.0, "Master", randf_range(0.99, 1.01))
 	%Heart.scale = Vector2(1.2, 1.2)
 	%Heart.get_theme_stylebox("panel").skew = Vector2(0, randf_range(-0.25, 0.25))

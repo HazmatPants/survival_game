@@ -24,7 +24,7 @@ func _ready() -> void:
 	$PainNoise.show()
 	$Sharp.show()
 	tabs.current_tab = 0
-	$Inventory/TabContainer/Health/Body.reset_size()
+	%Body.reset_size()
 	$Shock.modulate.a = 0.0
 
 	TimeManager.Tick.connect(_tick)
@@ -60,9 +60,8 @@ func _process(delta: float) -> void:
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			GLOBAL.playsound(preload("res://assets/audio/sfx/ui/ui_close.wav"))
-	tab_keybind("inventory", 0)
-	tab_keybind("health", 1)
-	tab_keybind("os", 2)
+	tab_keybind("health", 0)
+	tab_keybind("os", 1)
 	if not health: return
 
 	if is_menu_open:
@@ -78,7 +77,11 @@ func _process(delta: float) -> void:
 	for child in tabs.get_children():
 		child.modulate.a = lerp(child.modulate.a, 1.0, 0.2)
 
-	$Blackout.modulate.a = lerp($Blackout.modulate.a, (1.0 - (health.consciousness + 0.05)), 0.1)
+	var target_blackout = 1.0 - health.consciousness
+	if target_blackout > $Blackout.modulate.a:
+		$Blackout.modulate.a = lerp($Blackout.modulate.a, target_blackout, 0.1)
+	else:
+		$Blackout.modulate.a = target_blackout
 
 	noise_time += delta
 
@@ -128,7 +131,7 @@ func _process(delta: float) -> void:
 
 	if health.blood_loss_rate > 0.0:
 		blood_arrow_tween.play()
-		blood_arrow_tween.set_speed_scale(health.blood_loss_rate * 100)
+		blood_arrow_tween.set_speed_scale(clampf(health.blood_loss_rate * 100, 0.2, 4.0))
 		set_tooltip(%BloodArroControl, "-%.2f L/m" % (health.blood_loss_rate * 60))
 	else:
 		blood_arrow_tween.stop()
@@ -148,10 +151,8 @@ func switch_to_tab(tab: int) -> void:
 	tabs.current_tab = tab
 	match tabs.current_tab:
 		0:
-			GLOBAL.playsound(preload("res://assets/audio/sfx/ui/ui_tab_inventory.ogg"))
-		1:
 			GLOBAL.playsound(preload("res://assets/audio/sfx/ui/ui_tab_health.ogg"))
-		2:
+		1:
 			GLOBAL.playsound(preload("res://assets/audio/sfx/ui/ui_tab_os.ogg"))
 		_:
 			GLOBAL.playsound(preload("res://assets/audio/sfx/ui/ui_tab.ogg"))

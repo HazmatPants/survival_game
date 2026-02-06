@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbcgmotnk1fbs"]
+[gd_scene format=3 uid="uid://bbcgmotnk1fbs"]
 
+[ext_resource type="Theme" uid="uid://b86kw1uh4ns8s" path="res://assets/res/theme.tres" id="1_vjb58"]
 [ext_resource type="Script" uid="uid://cunueo43m1qgi" path="res://scripts/menu.gd" id="1_yqeox"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4h3mk"]
@@ -18,7 +19,7 @@ expand_margin_top = 8.0
 expand_margin_right = 8.0
 expand_margin_bottom = 8.0
 
-[node name="Menu" type="Control"]
+[node name="Menu" type="Control" unique_id=36109965]
 process_mode = 3
 z_index = 70
 layout_mode = 3
@@ -28,9 +29,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("1_vjb58")
 script = ExtResource("1_yqeox")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=110840398]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,7 +42,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.68235296)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1418196870]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,23 +51,42 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Panel" type="Panel" parent="CenterContainer"]
-custom_minimum_size = Vector2(300, 400)
+[node name="Panel" type="Panel" parent="CenterContainer" unique_id=1202939985]
+custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4h3mk")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=1290362860]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ResumeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
+[node name="ResumeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=221717219]
 layout_mode = 2
 text = "Resume"
 
+[node name="Label" type="Label" parent="." unique_id=1852977975]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.14400001
+anchor_right = 0.5
+anchor_bottom = 0.14400001
+offset_left = -31.0
+offset_top = -11.312004
+offset_right = 31.0
+offset_bottom = 11.687996
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 53
+text = "P A U S E D"
+horizontal_alignment = 1
+
+[connection signal="mouse_entered" from="CenterContainer/Panel/VBoxContainer/ResumeButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="CenterContainer/Panel/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
